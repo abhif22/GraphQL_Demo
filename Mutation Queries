@@ -1,6 +1,9 @@
-mutation{
-    addUser(firstName:"Stephen", age: 38, companyId: "1"){
-        id,
-        firstName
-    }
+mutation {
+  addUser(firstName: "Stephen", age: 38, companyId: "1") {
+    id
+    firstName
+  },
+  deleteUser(id: "1") {
+    id
+  }
 }

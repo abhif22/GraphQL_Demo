@@ -19,7 +19,7 @@ const CompanyType = new GraphQLObjectType({
         users: {
             type: new GraphQLList(UserType),
             resolve(parentVal, args){
-                console.log(parentVal);
+                // console.log(parentVal);
                 return axios.get(`http://localhost:3000/companies/${parentVal.id}/users/`)
                     .then(resp => resp.data)
             }
@@ -36,7 +36,7 @@ const UserType = new GraphQLObjectType({
         company: { 
             type: CompanyType,
             resolve(parentValue, args){
-                console.log(parentValue);
+                // console.log(parentValue);
                 return axios.get(`http://localhost:3000/companies/${parentValue.companyId}`)
                     .then(resp => resp.data);
             }
@@ -78,6 +78,28 @@ const mutation = new GraphQLObjectType({
             },
             resolve(parentVal, args){
                 return axios.post(`http://localhost:3000/users`, args)
+                    .then(resp => resp.data)
+            }
+        },
+        deleteUser: {
+            type: UserType,
+            args: { id: { type: new GraphQLNonNull(GraphQLString)}},
+            resolve(parentVal, args){
+                // console.log(args);
+                return axios.delete(`http://localhost:3000/users/${args.id}`)
+                    .then(resp => resp.data)
+            }
+        },
+        modifyUser: {
+            type: UserType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLString)},
+                firstName: { type: GraphQLString},
+                age: { type: GraphQLInt},
+                companyId: { type: GraphQLString}
+            },
+            resolve(parentVal, args){
+                return axios.patch(`http://localhost:3000/users/${args.id}`, args)
                     .then(resp => resp.data)
             }
         }
