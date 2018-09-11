@@ -2,25 +2,25 @@
   user(id: "1") {
     firstName
     company {
-      id
-      name
-      description
+      ...companyDetails
     }
   }
   company2: company(id: "1") {
-    id
-    name
-    description
+    ...companyDetails
     users {
       firstName
     }
   }
   company1: company(id: "1") {
-    id
-    name
-    description
+    ...companyDetails
     users {
       firstName
     }
   }
+}
+
+fragment companyDetails on company {
+  id
+  name
+  description
 }
